@@ -174,13 +174,16 @@ button:active {
 }
 
 .empty-state {
-  height: 100%;
-  min-height: 240px;
-  display: grid;
-  place-items: center;
+  height: auto;
+  min-height: 0;
+  display: block;
   color: var(--text-dim);
   text-align: center;
+  padding-top: 10px;
+  margin-bottom: 12px;
 }
+
+
 
 .matrix-viewport {
   height: calc(100vh - 270px);
@@ -188,8 +191,9 @@ button:active {
   overflow: auto;
   border-radius: 10px;
   display: grid;
-  place-items: start center;
-  padding-top: 8px;
+  justify-items: center;
+  align-content: start;
+  padding-top: 10px;
 }
 
 .matrix-grid {
@@ -197,6 +201,7 @@ button:active {
   display: grid;
   gap: var(--cell-gap);
   padding: var(--cell-gap);
+  margin-top: 0;
 }
 
 .cell {
