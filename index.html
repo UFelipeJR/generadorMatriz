@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generador de Matriz</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="panel">
+        <header class="panel-header">
+          <h1>GENERADOR DE MATRIZ</h1>
+        </header>
+
+        <form id="controls" class="controls" autocomplete="off">
+          <label class="field">
+            <span>Filas (m)</span>
+            <input id="rows" name="rows" type="number" min="1" max="32" value="4" inputmode="numeric" />
+          </label>
+
+          <label class="field">
+            <span>Cols (n)</span>
+            <input id="cols" name="cols" type="number" min="1" max="32" value="6" inputmode="numeric" />
+          </label>
+
+          <button id="generateBtn" type="submit">▶ GENERAR</button>
+        </form>
+
+        <div class="status-row">
+          <div class="hex-block" id="hexBlock" hidden>
+            <span class="hex-label">HEX</span>
+            <span class="hex-value" id="hexValue"></span>
+            <span class="hex-meta" id="hexMeta"></span>
+          </div>
+          <p class="message error" id="errorMessage" hidden></p>
+          <p class="message warning" id="missingMessage" hidden></p>
+          <p class="message path">assets/ → <span id="assetsPath">./assets</span></p>
+        </div>
+      </section>
+
+      <section class="matrix-panel">
+        <div id="emptyState" class="empty-state">Presiona GENERAR para crear la matriz</div>
+        <div id="matrixViewport" class="matrix-viewport" hidden>
+          <div id="matrixGrid" class="matrix-grid"></div>
+        </div>
+      </section>
+    </main>
+
+    <template id="cellTemplate">
+      <article class="cell">
+        <img class="cell-image" alt="Figura" hidden />
+        <div class="cell-placeholder" hidden></div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
