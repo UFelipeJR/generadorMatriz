@@ -1,7 +1,7 @@
 const NUM_IMGS = 8
 const MAX_DIM = 32
-const MAX_HEX = 8
-const MIN_HEX_LEN = 8
+const MAX_HEX = 4
+const MIN_HEX_LEN = 4
 const IMAGE_PATHS = Array.from({ length: NUM_IMGS }, (_, index) => `assets/${index + 1}.png`)
 
 const state = {
