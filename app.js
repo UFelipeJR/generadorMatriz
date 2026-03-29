@@ -7,6 +7,7 @@ const IMAGE_PATHS = Array.from({ length: NUM_IMGS }, (_, index) => `assets/${ind
 const state = {
   rows: 4,
   cols: 6,
+  longitudHex: 4,
   hexStr: '',
   maxChars: 0,
   matrix: [],
@@ -19,6 +20,7 @@ const refs = {
   controls: document.getElementById('controls'),
   rows: document.getElementById('rows'),
   cols: document.getElementById('cols'),
+  longitudHex: document.getElementById('longitudHex'),
   generateBtn: document.getElementById('generateBtn'),
   hexBlock: document.getElementById('hexBlock'),
   hexValue: document.getElementById('hexValue'),
@@ -41,19 +43,24 @@ function randomHex(length) {
   return Array.from({ length }, () => chars[randomInt(0, chars.length - 1)]).join('')
 }
 
-function getValidatedDimensions() {
+function getValidatedInputs() {
   const rows = Number.parseInt(refs.rows.value, 10)
   const cols = Number.parseInt(refs.cols.value, 10)
+  const longitudHex = Number.parseInt(refs.longitudHex.value, 10)
 
-  if (!Number.isInteger(rows) || !Number.isInteger(cols) || rows < 1 || cols < 1) {
-    return { error: 'Filas y columnas deben ser enteros positivos' }
+  if (!Number.isInteger(rows) || !Number.isInteger(cols) || !Number.isInteger(longitudHex) || rows < 1 || cols < 1 || longitudHex < 1) {
+    return { error: 'Filas, columnas y longitud HEX deben ser enteros positivos' }
   }
 
   if (rows > MAX_DIM || cols > MAX_DIM) {
     return { error: 'Máximo 32 filas y 32 columnas' }
   }
 
-  return { rows, cols }
+  if (longitudHex > 32) {
+    return { error: 'La longitud HEX máxima es 32' }
+  }
+
+  return { rows, cols, longitudHex }
 }
 
 async function probeImage(path) {
@@ -88,8 +95,7 @@ function renderStatus() {
   const hasHex = state.hexStr.length > 0
   refs.hexBlock.hidden = !hasHex
   refs.hexValue.textContent = state.hexStr
-  refs.hexMeta.textContent = hasHex ? `len=${state.hexStr.length} máx=${state.maxChars}` : ''
-
+  refs.hexMeta.textContent = hasHex ? `len=${state.hexStr.length}` : ''
   refs.errorMessage.hidden = !state.error
   refs.errorMessage.textContent = state.error
 
@@ -153,17 +159,18 @@ function render() {
 async function generateMatrix() {
   state.error = ''
 
-  const dimensions = getValidatedDimensions()
-  if (dimensions.error) {
-    state.error = dimensions.error
+  const datos = getValidatedInputs()
+  if (datos.error) {
+    state.error = datos.error
     render()
     return
   }
 
-  state.rows = dimensions.rows
-  state.cols = dimensions.cols
-  state.maxChars = MAX_HEX
-  state.hexStr = randomHex(randomInt(MIN_HEX_LEN, MAX_HEX))
+  state.rows = datos.rows
+  state.cols = datos.cols
+  state.longitudHex = datos.longitudHex
+  state.maxChars = datos.longitudHex
+  state.hexStr = randomHex(datos.longitudHex)
   state.matrix = buildMatrix(state.rows, state.cols)
 
   await refreshImageStatus()
