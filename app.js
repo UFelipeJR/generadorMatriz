@@ -5,8 +5,8 @@ const MIN_HEX_LEN = 4
 const IMAGE_PATHS = Array.from({ length: NUM_IMGS }, (_, index) => `assets/${index + 1}.png`)
 
 const state = {
-  rows: 4,
-  cols: 6,
+  rows: 7,
+  cols: 7,
   longitudHex: 4,
   hexStr: '',
   maxChars: 0,
